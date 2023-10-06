@@ -16,7 +16,7 @@ class CreateTaskStatus extends Migration
         Schema::create('task_status', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
-            $table->timestamps();
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
         });
     }
 

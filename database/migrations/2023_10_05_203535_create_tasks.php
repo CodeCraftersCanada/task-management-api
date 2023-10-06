@@ -17,15 +17,14 @@ class CreateTasks extends Migration
             $table->id();
             $table->string('title', 100);
             $table->text('description');
-            $table->timestamp('start_date');
-            $table->timestamp('end_date');
             $table->bigInteger('task_status_id')->unsigned();
+            $table->timestamp('start_date')->nullable();
+            $table->timestamp('end_date')->nullable();
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
         });
 
         Schema::table('tasks', function($table) {
-            $table->foreign('task_status_id')->references('id')->on('user_type');
-            $table->foreign('user_role_id')->references('id')->on('user_role');
+            $table->foreign('task_status_id')->references('id')->on('task_status');
         });
 
     }
