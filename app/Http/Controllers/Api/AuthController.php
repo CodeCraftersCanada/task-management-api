@@ -49,7 +49,7 @@ class AuthController extends Controller
                 'status' => true,
                 'message' => 'User Created Successfully',
                 'token' => $user->createToken("API TOKEN")->plainTextToken,
-                'user' => $user
+                'user' => $user->load('userType', 'userRole')
             ], 200);
 
         } catch (\Throwable $th) {
@@ -101,7 +101,7 @@ class AuthController extends Controller
                     'status' => true,
                     'message' => 'User Logged In Successfully',
                     'token' => $user->createToken("API TOKEN")->plainTextToken,
-                    'user' => $user
+                    'user' => $user->load('userType', 'userRole')
                 ], 200);
             }
         } catch (\Throwable $th) {

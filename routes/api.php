@@ -29,4 +29,5 @@ Route::post('/signin', ['as' => '', 'uses' => 'Api\AuthController@loginUser']);
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('task', 'TaskController');
     Route::apiResource('taskStatus', 'TaskStatusController');
+    Route::apiResource('user', 'UserController');
 });
