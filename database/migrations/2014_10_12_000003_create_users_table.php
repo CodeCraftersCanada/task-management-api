@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('name', 100)->nullable();
             $table->bigInteger('user_type_id')->unsigned();
             $table->bigInteger('user_role_id')->unsigned();
-            $table->decimal('hourly_rate', 8, 2)->default(0.00);
+            $table->decimal('hourly_rate', 8, 2)->nullable();
             $table->tinyInteger('verified')->default(0);
             $table->tinyInteger('enable')->default(1);
             $table->timestamps();
