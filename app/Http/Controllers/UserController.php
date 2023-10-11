@@ -61,6 +61,7 @@ class UserController extends Controller
                 'name' => $request->name,
                 'user_type_id' => $request->user_type_id,
                 'user_role_id' => $request->user_role_id,
+                'hourly_rate' => $request->hourly_rate,
                 'password' => bcrypt($request->password)
             ]);
 

@@ -25,6 +25,7 @@ class User extends Authenticatable
         'password',
         'user_type_id',
         'user_role_id',
+        'hourly_rate',
         'enable',
         'name',
         'email_verified_at'
