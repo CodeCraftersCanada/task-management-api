@@ -39,6 +39,6 @@ class SubTask extends Model
 
     public function task()
     {
-        return $this->hasOne(Task::class,'id', 'task');
+        return $this->hasOne(Task::class,'id', 'task_id');
     }
 }

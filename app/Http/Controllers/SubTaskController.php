@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Task;
+use App\Models\SubTask;
 
-class TaskController extends Controller
+class SubTaskController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,7 @@ class TaskController extends Controller
     {
         return response()->json([
             'status' => true,
-            'tasks' => Task::with('status', 'creator', 'assigned', 'subTasks')->get()
+            'tasks' => SubTask::with('status', 'creator', 'assigned', 'task')->get()
         ]);
     }
 
@@ -42,38 +42,38 @@ class TaskController extends Controller
         $data['start_date'] = $data['start_date']? date("Y-m-d", strtotime($data['start_date'])) : date("Y-m-d");
         $data['end_date'] = $data['end_date']? date("Y-m-d", strtotime($data['end_date'])) : date("Y-m-d");
 
-        $task = Task::create($data);
+        $subTask = SubTask::create($data);
 
         return response()->json([
             'status' => true,
             'message' => "Task created successfully!",
-            'task' => $task->load('status', 'creator', 'assigned')
+            'subTask' => $subTask->load('status', 'creator', 'assigned', 'task')
         ], 200);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Task $task
+     * @param  \App\Models\SubTask $subTask
      * @return \Illuminate\Http\Response
      */
-    public function show(Task $task)
+    public function show(SubTask $subTask)
     {
-        $task->load('status', 'creator', 'assigned');
+        $subTask->load('status', 'creator', 'assigned', 'task');
 
         return response()->json([
             'status' => true,
-            'task' => $task
+            'task' => $subTask
         ], 200);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Task $task
+     * @param  \App\Models\SubTask $subTask
      * @return \Illuminate\Http\Response
      */
-    public function edit(Task $task)
+    public function edit(SubTask $subTask)
     {
         //
     }
@@ -82,34 +82,33 @@ class TaskController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  \App\Models\Task $task
+     * @param  \App\Models\SubTask $subTask
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Task $task)
+    public function update(Request $request, SubTask $subTask)
     {
         $data = $request->all();
         $data['start_date'] = $data['start_date']? date("Y-m-d", strtotime($data['start_date'])) : date("Y-m-d");
         $data['end_date'] = $data['end_date']? date("Y-m-d", strtotime($data['end_date'])) : date("Y-m-d");
 
-
-        $task->update($data);
+        $subTask->update($data);
 
         return response()->json([
             'status' => true,
-            'message' => "Tasks Updated successfully!",
-            'task' => $task->load('status', 'creator', 'assigned')
+            'message' => "Sub Tasks Updated successfully!",
+            'subTask' => $subTask->load('status', 'creator', 'assigned', 'task')
         ], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Task $tasks
+     * @param  \App\Models\SubTask $subTask
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Task $task)
+    public function destroy(SubTask $subTask)
     {
-        $task->delete();
+        $subTask->delete();
 
         return response()->json([
             'status' => true,

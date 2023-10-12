@@ -30,4 +30,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('user', 'UserController');
     Route::apiResource('task', 'TaskController');
     Route::apiResource('taskStatus', 'TaskStatusController');
+    Route::apiResource('subTask', 'SubTaskController');
 });

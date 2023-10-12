@@ -35,4 +35,9 @@ class Task extends Model
     {
         return $this->hasOne(User::class,'id', 'created_by');
     }
+
+    public function subTasks()
+    {
+        return $this->hasMany(SubTask::class);
+    }
 }
