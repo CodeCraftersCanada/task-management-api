@@ -16,7 +16,7 @@ class TaskStatusController extends Controller
     {
         return response()->json([
             'status' => true,
-            'taskStatus' => TaskStatus::orderBy('name')->get()
+            'taskStatus' => TaskStatus::orderBy('id')->get()
         ]);
     }
 
