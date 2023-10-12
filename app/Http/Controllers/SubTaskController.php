@@ -16,7 +16,7 @@ class SubTaskController extends Controller
     {
         return response()->json([
             'status' => true,
-            'tasks' => SubTask::with('status', 'creator', 'assigned', 'task')->get()
+            'subtasks' => SubTask::with('status', 'creator', 'assigned', 'task')->get()
         ]);
     }
 
@@ -46,7 +46,7 @@ class SubTaskController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => "Task created successfully!",
+            'message' => "Sub Task created successfully!",
             'subTask' => $subTask->load('status', 'creator', 'assigned', 'task')
         ], 200);
     }
@@ -63,7 +63,7 @@ class SubTaskController extends Controller
 
         return response()->json([
             'status' => true,
-            'task' => $subTask
+            'subtask' => $subTask
         ], 200);
     }
 
@@ -112,7 +112,7 @@ class SubTaskController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => "Task deleted successfully!",
+            'message' => "Sub Task deleted successfully!",
         ], 200);
     }
 }
