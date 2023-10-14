@@ -12,11 +12,20 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $data = $request->all();
+        $task = [];
+        if (isset($data['task_status_id']) && $data['task_status_id']) {
+            $task = Task::with('status', 'creator', 'assigned', 'subTasks')->where('task_status_id', '=', $data['task_status_id'])->get();
+
+        } else {
+            $task = Task::with('status', 'creator', 'assigned', 'subTasks')->get();
+        }
+
         return response()->json([
             'status' => true,
-            'tasks' => Task::with('status', 'creator', 'assigned', 'subTasks')->get()
+            'tasks' => $task
         ]);
     }
 
