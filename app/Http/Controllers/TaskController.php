@@ -14,18 +14,26 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
-        $data = $request->all();
-        $task = [];
-        if (isset($data['task_status_id']) && $data['task_status_id']) {
-            $task = Task::with('status', 'creator', 'assigned', 'subTasks')->where('task_status_id', '=', $data['task_status_id'])->get();
+        $status = $request->get('task_status_id')? $request->get('task_status_id') : 0;
+        $assignedTo = $request->get('assigned_to')? $request->get('assigned_to') : 0;
 
-        } else {
-            $task = Task::with('status', 'creator', 'assigned', 'subTasks')->get();
+        $taskModel = Task::query();
+
+        if ($status) {
+            $taskModel->where('task_status_id', '=', $status);
+
         }
+
+        if ($assignedTo) {
+            $taskModel->where('assigned_to', '=', $assignedTo);
+
+        }
+
+        $results = $taskModel->with('status', 'creator', 'assigned', 'subTasks')->get();
 
         return response()->json([
             'status' => true,
-            'tasks' => $task
+            'tasks' => $results
         ]);
     }
 
