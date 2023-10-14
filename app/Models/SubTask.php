@@ -15,6 +15,7 @@ class SubTask extends Model
         'title',
         'task_id',
         'task_status_id',
+        'task_hours'
     ];
 
     public function task()
