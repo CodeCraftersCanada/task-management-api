@@ -18,7 +18,7 @@ class UserController extends Controller
     {
         return response()->json([
             'status' => true,
-            'users' => User::orderBy("name")->get()
+            'users' => User::with('userType', 'userRole')->orderBy("name")->get()
         ]);
     }
 

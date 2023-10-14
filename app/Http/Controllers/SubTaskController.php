@@ -16,7 +16,7 @@ class SubTaskController extends Controller
     {
         return response()->json([
             'status' => true,
-            'subtasks' => SubTask::with('status', 'creator', 'assigned', 'task')->get()
+            'subtasks' => SubTask::with('status','task')->get()
         ]);
     }
 
@@ -39,15 +39,12 @@ class SubTaskController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $data['start_date'] = $data['start_date']? date("Y-m-d", strtotime($data['start_date'])) : date("Y-m-d");
-        $data['end_date'] = $data['end_date']? date("Y-m-d", strtotime($data['end_date'])) : date("Y-m-d");
-
         $subTask = SubTask::create($data);
 
         return response()->json([
             'status' => true,
             'message' => "Sub Task created successfully!",
-            'subTask' => $subTask->load('status', 'creator', 'assigned', 'task')
+            'subTask' => $subTask->load('status','task')
         ], 200);
     }
 
@@ -59,7 +56,7 @@ class SubTaskController extends Controller
      */
     public function show(SubTask $subTask)
     {
-        $subTask->load('status', 'creator', 'assigned', 'task');
+        $subTask->load('status', 'task');
 
         return response()->json([
             'status' => true,
@@ -88,15 +85,12 @@ class SubTaskController extends Controller
     public function update(Request $request, SubTask $subTask)
     {
         $data = $request->all();
-        $data['start_date'] = $data['start_date']? date("Y-m-d", strtotime($data['start_date'])) : date("Y-m-d");
-        $data['end_date'] = $data['end_date']? date("Y-m-d", strtotime($data['end_date'])) : date("Y-m-d");
-
         $subTask->update($data);
 
         return response()->json([
             'status' => true,
             'message' => "Sub Tasks Updated successfully!",
-            'subTask' => $subTask->load('status', 'creator', 'assigned', 'task')
+            'subTask' => $subTask->load('status', 'task')
         ], 200);
     }
 
