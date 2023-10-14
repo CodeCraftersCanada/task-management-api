@@ -68,7 +68,7 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        $task->load('status', 'creator', 'assigned');
+        $task->load('status', 'creator', 'assigned','subTasks');
 
         return response()->json([
             'status' => true,
