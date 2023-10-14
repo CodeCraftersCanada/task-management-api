@@ -35,7 +35,8 @@ class DatabaseSeeder extends Seeder
 
         DB::table('task_status')->insert(['name' => 'New']);
         DB::table('task_status')->insert(['name' => 'In Progress']);
-        DB::table('task_status')->insert(['name' => 'Completed']);
+        DB::table('task_status')->insert(['name' => 'Complete']);
+        DB::table('task_status')->insert(['name' => 'In Complete']);
 
     }
 }

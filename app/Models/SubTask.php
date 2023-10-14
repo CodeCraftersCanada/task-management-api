@@ -17,11 +17,6 @@ class SubTask extends Model
         'task_status_id',
     ];
 
-    public function status()
-    {
-        return $this->hasOne(TaskStatus::class,'id', 'task_status_id');
-    }
-
     public function task()
     {
         return $this->hasOne(Task::class,'id', 'task_id');
