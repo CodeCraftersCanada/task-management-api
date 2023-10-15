@@ -18,7 +18,7 @@ class Task extends Model
         'task_status_id',
         'created_by',
         'assigned_to',
-        'hours_to_complete'
+        'task_hours'
     ];
 
     public function status()

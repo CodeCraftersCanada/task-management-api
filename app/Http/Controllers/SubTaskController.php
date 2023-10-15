@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\SubTask;
+use App\Models\Task;
 
 class SubTaskController extends Controller
 {
@@ -40,6 +41,8 @@ class SubTaskController extends Controller
     {
         $data = $request->all();
         $subTask = SubTask::create($data);
+
+        $this->recomputeOverTaskHours($data['task_id']);
 
         return response()->json([
             'status' => true,
@@ -87,6 +90,8 @@ class SubTaskController extends Controller
         $data = $request->all();
         $subTask->update($data);
 
+        $this->recomputeOverTaskHours($data['task_id']);
+
         return response()->json([
             'status' => true,
             'message' => "Sub Tasks Updated successfully!",
@@ -108,5 +113,21 @@ class SubTaskController extends Controller
             'status' => true,
             'message' => "Sub Task deleted successfully!",
         ], 200);
+    }
+
+    private function recomputeOverTaskHours($taskID)
+    {
+        $tasks = Task::find($taskID);
+
+        $hours = 0;
+        if ($tasks) {
+            if($tasks->subTasks){
+                foreach($tasks->subTasks as $subTask){
+                    $hours += $subTask->task_hours;
+                }
+            }
+        }
+        $tasks->update(['task_hours' => $hours]);
+
     }
 }
