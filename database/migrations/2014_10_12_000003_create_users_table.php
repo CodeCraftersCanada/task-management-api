@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('email', 50)->unique();
             $table->string('password', 100)->nullable();
             $table->string('name', 100)->nullable();
+            $table->string('filename', 100)->nullable();
             $table->bigInteger('user_type_id')->unsigned();
             $table->bigInteger('user_role_id')->unsigned();
             $table->decimal('hourly_rate', 8, 2)->nullable();

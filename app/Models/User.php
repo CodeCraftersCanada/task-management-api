@@ -23,6 +23,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'filename',
         'user_type_id',
         'user_role_id',
         'hourly_rate',
