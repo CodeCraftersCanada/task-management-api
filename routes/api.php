@@ -26,10 +26,13 @@ Route::get('/clear', function() {
 Route::post('/signup', ['as' => '', 'uses' => 'Api\AuthController@createUser']);
 Route::post('/signin', ['as' => '', 'uses' => 'Api\AuthController@loginUser']);
 
+
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('user', 'UserController');
     Route::apiResource('task', 'TaskController');
     Route::apiResource('taskStatus', 'TaskStatusController');
     Route::apiResource('subTask', 'SubTaskController');
     Route::apiResource('invoice', 'InvoiceController');
+
+    Route::get('/reports', ['as' => '', 'uses' => 'ReportController@index']);
 });
