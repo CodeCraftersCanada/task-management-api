@@ -33,7 +33,7 @@ class Task extends Model
 
     public function assigned()
     {
-        return $this->hasOne(User::class,'id', 'created_by');
+        return $this->hasOne(User::class,'id', 'assigned_to');
     }
 
     public function subTasks()
