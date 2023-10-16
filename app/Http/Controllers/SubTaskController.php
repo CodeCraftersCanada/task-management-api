@@ -90,7 +90,7 @@ class SubTaskController extends Controller
         $data = $request->all();
         $subTask->update($data);
 
-        $this->recomputeOverTaskHours($data['task_id']);
+        $this->recomputeOverTaskHours($subTask->task_id);
 
         return response()->json([
             'status' => true,
