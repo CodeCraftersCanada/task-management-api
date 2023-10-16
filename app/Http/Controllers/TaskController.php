@@ -16,6 +16,7 @@ class TaskController extends Controller
     {
         $status = $request->get('task_status_id')? $request->get('task_status_id') : 0;
         $assignedTo = $request->get('assigned_to')? $request->get('assigned_to') : 0;
+        $createdBy = $request->get('created_by')? $request->get('created_by') : 0;
 
         $taskModel = Task::query();
 
@@ -26,7 +27,10 @@ class TaskController extends Controller
 
         if ($assignedTo) {
             $taskModel->where('assigned_to', '=', $assignedTo);
+        }
 
+        if ($createdBy) {
+            $taskModel->where('created_by', '=', $createdBy);
         }
 
         $results = $taskModel->with('status', 'creator', 'assigned', 'subTasks')->get();

@@ -24,9 +24,12 @@ class ReportController extends Controller
 
         $reports = [];
         $reports['total'] = $query->count();
-        $reports['new_tasks'] = DB::table('task')->whereBetween('created_at', [$lastWeek, $now])->where('task_status_id', '=', 1)->count();
-        $reports['inprogress_tasks'] = DB::table('task')->whereBetween('created_at', [$lastWeek, $now])->where('task_status_id', '=', 2)->count();
-        $reports['completed_tasks'] = DB::table('task')->whereBetween('created_at', [$lastWeek, $now])->where('task_status_id', '=', 3)->count();
+        $reports['overall_new'] = DB::table('task')->where('task_status_id', '=', 1)->count();
+        $reports['overall_inprogress'] = DB::table('task')->where('task_status_id', '=', 2)->count();
+        $reports['overall_complete'] = DB::table('task')->where('task_status_id', '=', 3)->count();
+        $reports['new_tasks_week'] = DB::table('task')->whereBetween('created_at', [$lastWeek, $now])->where('task_status_id', '=', 1)->count();
+        $reports['inprogress_tasks_week'] = DB::table('task')->whereBetween('created_at', [$lastWeek, $now])->where('task_status_id', '=', 2)->count();
+        $reports['completed_tasks_week'] = DB::table('task')->whereBetween('created_at', [$lastWeek, $now])->where('task_status_id', '=', 3)->count();
 
         $months = [];
 
