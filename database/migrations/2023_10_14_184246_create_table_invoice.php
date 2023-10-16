@@ -15,9 +15,9 @@ class CreateTableInvoice extends Migration
     {
         Schema::create('invoice', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('created_by')->unsigned();
             $table->bigInteger('paid_to')->unsigned();
             $table->bigInteger('task_id')->unsigned();
-            $table->tinyInteger('status_id')->default(1); //paid or not
             $table->decimal('total_hours', 8, 2)->nullable();
             $table->decimal('hourly_rate', 8, 2)->nullable();
             $table->decimal('amount', 8, 2)->nullable();
@@ -27,6 +27,7 @@ class CreateTableInvoice extends Migration
         Schema::table('invoice', function($table) {
             $table->foreign('task_id')->references('id')->on('task');
             $table->foreign('paid_to')->references('id')->on('users');
+            $table->foreign('created_by')->references('id')->on('users');
         });
     }
 

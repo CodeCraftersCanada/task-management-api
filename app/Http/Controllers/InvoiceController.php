@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Invoice;
+use App\Models\Task;
 
 class InvoiceController extends Controller
 {
@@ -14,9 +15,18 @@ class InvoiceController extends Controller
      */
     public function index(Request $request)
     {
+        // Get the authenticated user
+        $user = auth('sanctum')->user();
+        $invoices = [];
+        if ($user->user_type_id == 1) {
+            $invoices = Invoice::with('creator','payee', 'task')->where('created_by', '=', $user->id)->get();
+        } else {
+            $invoices = Invoice::with('creator','payee', 'task')->where('created_by', '=', $user->id)->get();
+        }
+
         return response()->json([
             'status' => true,
-            'invoices' => Invoice::with('payee', 'task')->get()
+            'invoices' => Invoice::with('creator','payee', 'task')->get()
         ]);
     }
 
@@ -40,10 +50,12 @@ class InvoiceController extends Controller
     {
         $invoice = Invoice::create($request->all());
 
+        $this->recomputeOverTaskHours($invoice->task_id);
+
         return response()->json([
             'status' => true,
             'message' => "Invoice created successfully!",
-            'invoice' => $invoice->load('payee', 'task')
+            'invoice' => $invoice->load('creator','payee', 'task')
         ], 200);
     }
 
@@ -55,7 +67,7 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice)
     {
-        $invoice->load('payee', 'task');
+        $invoice->load('creator','payee', 'task');
 
         return response()->json([
             'status' => true,
@@ -89,7 +101,7 @@ class InvoiceController extends Controller
         return response()->json([
             'status' => true,
             'message' => "Invoices Updated successfully!",
-            'invoice' => $invoice->load('payee', 'task')
+            'invoice' => $invoice->load('creator','payee', 'task')
         ], 200);
     }
 
@@ -103,9 +115,39 @@ class InvoiceController extends Controller
     {
         $invoice->delete();
 
+
         return response()->json([
             'status' => true,
             'message' => "Invoice deleted successfully!",
         ], 200);
+    }
+
+    private function recomputeOverTaskHours($taskID)
+    {
+        $tasks = Task::find($taskID);
+
+        $hours = 0;
+        $paidHours = 0;
+        if ($tasks) {
+            if($tasks->subTasks){
+                foreach($tasks->subTasks as $subTask){
+                    $hours += $subTask->task_hours;
+                }
+            }
+
+            if($tasks->invoices){
+                foreach($tasks->invoices as $invoice){
+                    $paidHours += $invoice->total_hours;
+                }
+            }
+        }
+
+        $tasks->update([
+                'task_hours' => $hours,
+                'paid_task_hours' => $paidHours,
+                'unpaid_task_hours' => $hours - $paidHours,
+                ]
+            );
+
     }
 }

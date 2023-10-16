@@ -26,9 +26,17 @@ class DatabaseSeeder extends Seeder
         DB::table('user_role')->insert(['name' => 'Database Administrator']);
 
         DB::table('users')->insert([
-            'email' => 'admin@taskmgt.com',
+            'email' => 'admin1@taskmgt.com',
             'password' => bcrypt('password'),
-            'name' => 'Administrator',
+            'name' => 'Administrator 1',
+            'user_type_id' => 1,
+            'user_role_id' => 1
+        ]);
+
+        DB::table('users')->insert([
+            'email' => 'admin2@taskmgt.com',
+            'password' => bcrypt('password'),
+            'name' => 'Administrator 2',
             'user_type_id' => 1,
             'user_role_id' => 1
         ]);
@@ -36,7 +44,6 @@ class DatabaseSeeder extends Seeder
         DB::table('task_status')->insert(['name' => 'New']);
         DB::table('task_status')->insert(['name' => 'In Progress']);
         DB::table('task_status')->insert(['name' => 'Complete']);
-        DB::table('task_status')->insert(['name' => 'In Complete']);
 
     }
 }

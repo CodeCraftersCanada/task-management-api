@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\TaskStatus;
 use App\Models\User;
+use App\Models\Invoice;
 
 class Task extends Model
 {
@@ -18,7 +19,9 @@ class Task extends Model
         'task_status_id',
         'created_by',
         'assigned_to',
-        'task_hours'
+        'task_hours',
+        'unpaid_task_hours',
+        'paid_task_hours'
     ];
 
     public function status()
@@ -39,5 +42,10 @@ class Task extends Model
     public function subTasks()
     {
         return $this->hasMany(SubTask::class);
+    }
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
     }
 }

@@ -18,7 +18,9 @@ class CreateTasks extends Migration
             $table->string('title', 100);
             $table->text('description');
             $table->bigInteger('task_status_id')->unsigned();
-            $table->decimal('task_hours', 8, 2)->nullable();
+            $table->decimal('task_hours', 10, 2)->nullable();
+            $table->decimal('unpaid_task_hours', 10, 2)->nullable();
+            $table->decimal('paid_task_hours', 10, 2)->nullable();
             $table->bigInteger('created_by')->unsigned();
             $table->bigInteger('assigned_to')->unsigned();
             $table->timestamp('start_date')->nullable();

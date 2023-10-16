@@ -11,14 +11,18 @@ class Invoice extends Model
     public $table = 'invoice';
 
     protected $fillable = [
+        'created_by',
         'paid_to',
         'task_id',
-        'status_id',
         'total_hours',
         'hourly_rate',
         'amount'
     ];
 
+    public function creator()
+    {
+        return $this->hasOne(User::class,'id', 'created_by');
+    }
 
     public function payee()
     {
