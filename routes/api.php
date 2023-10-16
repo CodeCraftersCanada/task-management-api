@@ -35,4 +35,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('invoice', 'InvoiceController');
 
     Route::get('/reports', ['as' => '', 'uses' => 'ReportController@index']);
+    Route::get('/dueToday', ['as' => '', 'uses' => 'ReportController@dueToday']);
 });

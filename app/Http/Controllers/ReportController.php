@@ -55,6 +55,36 @@ class ReportController extends Controller
         ]);
     }
 
+
+    /**
+     * Show the list of due today
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function dueToday()
+    {
+        $now = date("Y-m-d");
+        $start = $now . ' 00:00:00';
+        $end = $now . ' 23:23:23';
+
+        $dueQuery = DB::table('task');
+        $dueQuery->whereBetween('end_date', [$start,$end]);
+        $tasks= $dueQuery->get();
+
+        $results = [];
+        if ($tasks) {
+            foreach($tasks as $task) {
+                $results[] = $task;
+            }
+        }
+
+        return response()->json([
+            'status' => true,
+            'dueToday' => $results
+        ]);
+    }
+
+
     /**
      * Show the form for creating a new resource.
      *

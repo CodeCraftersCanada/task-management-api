@@ -48,7 +48,11 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        $taskModel = Task::query();
+        return response()->json([
+            'status' => true,
+            'tasks' => $results
+        ]);
     }
 
     /**
