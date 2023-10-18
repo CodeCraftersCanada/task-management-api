@@ -18,15 +18,17 @@ class InvoiceController extends Controller
         // Get the authenticated user
         $user = auth('sanctum')->user();
         $invoices = [];
+        //admin
         if ($user->user_type_id == 1) {
             $invoices = Invoice::with('creator','payee', 'task')->where('created_by', '=', $user->id)->get();
         } else {
+            //member
             $invoices = Invoice::with('creator','payee', 'task')->where('paid_to', '=', $user->id)->get();
         }
 
         return response()->json([
             'status' => true,
-            'invoices' => Invoice::with('creator','payee', 'task')->get()
+            'invoices' => $invoices
         ]);
     }
 
