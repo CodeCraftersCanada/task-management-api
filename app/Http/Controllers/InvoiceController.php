@@ -21,7 +21,7 @@ class InvoiceController extends Controller
         if ($user->user_type_id == 1) {
             $invoices = Invoice::with('creator','payee', 'task')->where('created_by', '=', $user->id)->get();
         } else {
-            $invoices = Invoice::with('creator','payee', 'task')->where('created_by', '=', $user->id)->get();
+            $invoices = Invoice::with('creator','payee', 'task')->where('paid_to', '=', $user->id)->get();
         }
 
         return response()->json([
