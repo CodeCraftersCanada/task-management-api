@@ -21,6 +21,11 @@ class ReportController extends Controller
         $now = date("Y-m-d G:i:s");
         $lastWeek = date("Y-m-d G:i:s", strtotime("-1 week")); // Subtract a week from the current date
 
+        //due today
+        $today = date("Y-m-d");
+        $start_due =  $today . ' 00:00:00';
+        $end_due =  $today . ' 23:23:23';
+
         //select * from `task` where `created_at` between '2023-10-08 23:13:46.453189' and '2023-10-15 23:20:12'
         $query = DB::table('task');
         $query->whereBetween('created_at', [$lastWeek, $now]);
@@ -56,7 +61,7 @@ class ReportController extends Controller
 
             $reports['completed_tasks_monthly'] = $months;
         } else {
-            //member -
+            //member - assigned_to
             $reports['total'] = $query->where('assigned_to', '=', $user->id)->count();
             $reports['overall_new'] = DB::table('task')->where('task_status_id', '=', 1)->where('assigned_to', '=', $user->id)->count();
 
@@ -103,8 +108,20 @@ class ReportController extends Controller
         $start = $now . ' 00:00:00';
         $end = $now . ' 23:23:23';
 
+        //get the current users
+        $user = auth('sanctum')->user();
+
         $dueQuery = DB::table('task');
         $dueQuery->whereBetween('end_date', [$start,$end]);
+
+        //admin - created_by
+        if ($user->user_type_id == 1) {
+            $dueQuery->where('created_by', '=', $user->id);
+        } else {
+            //admin - assigned_to
+            $dueQuery->where('assigned_to', '=', $user->id);
+        }
+
         $tasks= $dueQuery->get();
 
         $results = [];
