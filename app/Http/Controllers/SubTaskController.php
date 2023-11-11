@@ -41,12 +41,12 @@ class SubTaskController extends Controller
     {
         $data = $request->all();
 
-        $milSec = 3600000;
+        // $milSec = 3600000;
 
-        $data['task_hours'] = $data['task_hours']?  $data['task_hours'] / $milSec : 0;
+        // $data['task_hours'] = $data['task_hours']?  $data['task_hours'] / $milSec : 0;
         $subTask = SubTask::create($data);
 
-        $subTask->task_hours * $milSec;
+        // $subTask->task_hours * $milSec;
 
         $this->recomputeOverTaskHours($data['task_id']);
 
@@ -93,16 +93,16 @@ class SubTaskController extends Controller
      */
     public function update(Request $request, SubTask $subTask)
     {
-        $milSec = 3600000;
+        //$milSec = 3600000;
 
         $data = $request->all();
-        $data['task_hours'] = $data['task_hours']?  $data['task_hours'] / $milSec : 0;
+        // $data['task_hours'] = $data['task_hours']?  $data['task_hours'] / $milSec : 0;
 
-        $subTask->update($data);
+        // $subTask->update($data);
 
-        $this->recomputeOverTaskHours($subTask->task_id);
+        // $this->recomputeOverTaskHours($subTask->task_id);
 
-        $subTask->task_hours * $milSec;
+        // $subTask->task_hours * $milSec;
 
         return response()->json([
             'status' => true,
@@ -131,28 +131,28 @@ class SubTaskController extends Controller
     {
         $tasks = Task::find($taskID);
 
-        $hours = 0;
-        $paidHours = 0;
-        if ($tasks) {
-            if($tasks->subTasks){
-                foreach($tasks->subTasks as $subTask){
-                    $hours += $subTask->task_hours;
-                }
-            }
+        // $hours = 0;
+        // $paidHours = 0;
+        // if ($tasks) {
+        //     if($tasks->subTasks){
+        //         foreach($tasks->subTasks as $subTask){
+        //             $hours += $subTask->task_hours;
+        //         }
+        //     }
 
-            if($tasks->invoices){
-                foreach($tasks->invoices as $invoice){
-                    $paidHours += $invoice->total_hours;
-                }
-            }
-        }
+        //     if($tasks->invoices){
+        //         foreach($tasks->invoices as $invoice){
+        //             $paidHours += $invoice->total_hours;
+        //         }
+        //     }
+        // }
 
-        $tasks->update([
-                'task_hours' => $hours,
-                'paid_task_hours' => $paidHours,
-                'unpaid_task_hours' => $hours - $paidHours,
-                ]
-            );
+        // $tasks->update([
+        //         'task_hours' => $hours,
+        //         'paid_task_hours' => $paidHours,
+        //         'unpaid_task_hours' => $hours - $paidHours,
+        //         ]
+        //     );
 
     }
 }
