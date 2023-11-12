@@ -14,8 +14,7 @@ class SubTask extends Model
     protected $fillable = [
         'title',
         'task_id',
-        'task_status_id',
-        'task_hours'
+        'task_status_id'
     ];
 
     public function task()
