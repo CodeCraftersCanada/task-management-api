@@ -19,6 +19,7 @@ class Task extends Model
         'task_status_id',
         'created_by',
         'assigned_to',
+        'parent_id',
         'task_hours',
         'unpaid_task_hours',
         'paid_task_hours'
@@ -27,6 +28,12 @@ class Task extends Model
     public function status()
     {
         return $this->hasOne(TaskStatus::class,'id', 'task_status_id');
+    }
+
+
+    public function parentTask()
+    {
+        return $this->hasOne(Task::class,'id', 'parent_id');
     }
 
     public function creator()

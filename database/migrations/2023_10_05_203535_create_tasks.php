@@ -17,6 +17,7 @@ class CreateTasks extends Migration
             $table->id();
             $table->string('title', 100);
             $table->text('description');
+            $table->bigInteger('parent_id')->unsigned()->nullable();
             $table->bigInteger('task_status_id')->unsigned();
             $table->decimal('task_hours', 10, 2)->nullable();
             $table->decimal('unpaid_task_hours', 10, 2)->nullable();
@@ -33,6 +34,7 @@ class CreateTasks extends Migration
             $table->foreign('task_status_id')->references('id')->on('task_status');
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('assigned_to')->references('id')->on('users');
+            $table->foreign('parent_id')->references('id')->on('task');
         });
 
     }

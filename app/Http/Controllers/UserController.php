@@ -16,9 +16,12 @@ class UserController extends Controller
      */
     public function index()
     {
+        $userModel = User::query();
+        $results = $userModel->with('userType', 'userRole')->where('user_type_id', '=', 2)->orderBy("name")->get();
+
         return response()->json([
             'status' => true,
-            'users' => User::with('userType', 'userRole')->where('user_type_id', '=', 2)->orderBy("name")->get()
+            'users' => $results
         ]);
     }
 

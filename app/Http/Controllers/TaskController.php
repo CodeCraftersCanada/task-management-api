@@ -33,7 +33,7 @@ class TaskController extends Controller
             $taskModel->where('created_by', '=', $createdBy);
         }
 
-        $results = $taskModel->with('status', 'creator', 'assigned', 'subTasks')->get();
+        $results = $taskModel->with('status', 'creator', 'assigned', 'subTasks', 'parentTask')->get();
 
         return response()->json([
             'status' => true,
@@ -72,7 +72,7 @@ class TaskController extends Controller
         return response()->json([
             'status' => true,
             'message' => "Task created successfully!",
-            'task' => $task->load('status', 'creator', 'assigned')
+            'task' => $task->load('status', 'creator', 'assigned', 'subTasks', 'parentTask')
         ], 200);
     }
 
@@ -84,7 +84,7 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        $task->load('status', 'creator', 'assigned','subTasks');
+        $task->load('status', 'creator', 'assigned', 'subTasks', 'parentTask');
 
         return response()->json([
             'status' => true,
@@ -122,7 +122,7 @@ class TaskController extends Controller
         return response()->json([
             'status' => true,
             'message' => "Tasks Updated successfully!",
-            'task' => $task->load('status', 'creator', 'assigned')
+            'task' => $task->load('status', 'creator', 'assigned', 'subTasks', 'parentTask')
         ], 200);
     }
 
