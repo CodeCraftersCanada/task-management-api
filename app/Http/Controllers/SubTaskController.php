@@ -93,16 +93,16 @@ class SubTaskController extends Controller
      */
     public function update(Request $request, SubTask $subTask)
     {
-        //$milSec = 3600000;
+        $milSec = 1;
 
         $data = $request->all();
-        // $data['task_hours'] = $data['task_hours']?  $data['task_hours'] / $milSec : 0;
+        $data['task_hours'] = 1;
 
-        // $subTask->update($data);
+        $subTask->update($data);
 
-        // $this->recomputeOverTaskHours($subTask->task_id);
+        $this->recomputeOverTaskHours($subTask->task_id);
 
-        // $subTask->task_hours * $milSec;
+        $subTask->task_hours * $milSec;
 
         return response()->json([
             'status' => true,
